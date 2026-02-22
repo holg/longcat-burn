@@ -1,0 +1,40 @@
+[package]
+name = "longcat-burn"
+version = "0.1.0"
+edition = "2021"
+authors = ["holg"]
+description = "LongCat video generation model in Burn - 13.6B DiT for text/image to video"
+license = "MIT"
+repository = "https://github.com/holg/longcat-burn"
+keywords = ["deep-learning", "video-generation", "diffusion", "transformer", "longcat"]
+categories = ["science"]
+
+[dependencies]
+burn = { git = "https://github.com/tracel-ai/burn.git", default-features = false, features = ["store"] }
+burn-store = { git = "https://github.com/tracel-ai/burn.git", features = ["burnpack", "safetensors", "pytorch"] }
+umt5-burn = { git = "https://github.com/holg/umt5-burn.git" }
+derive-new = "0.6"
+half = "2.4"
+serde = { version = "1.0", features = ["derive"] }
+thiserror = "1.0"
+
+[dev-dependencies]
+
+[[example]]
+name = "generate"
+path = "examples/generate.rs"
+
+[[example]]
+name = "convert_vae_to_bpk"
+path = "examples/convert_vae_to_bpk.rs"
+
+[[example]]
+name = "convert_dit_to_bpk"
+path = "examples/convert_dit_to_bpk.rs"
+
+[features]
+default = ["std"]
+std = ["burn/std"]
+metal = ["burn/candle", "burn/candle-metal", "umt5-burn/metal"]
+cuda = ["burn/candle", "burn/candle-cuda", "umt5-burn/cuda"]
+cpu = ["burn/ndarray", "umt5-burn/cpu"]
